@@ -1,0 +1,499 @@
+/* ---------- Order on the way ---------- */
+ombra-journey {
+  display: block;
+}
+
+.journey {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  padding: clamp(4rem, 8vw, 7rem) var(--pad);
+}
+
+.journey__facts {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: grid;
+  gap: 1rem;
+}
+.journey__facts li {
+  display: flex;
+  gap: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.journey__facts strong {
+  color: var(--text);
+  font-weight: 500;
+}
+.journey__facts i {
+  flex: none;
+  color: var(--accent);
+  font-size: 1.3rem;
+  margin-top: 0.1rem;
+}
+
+.journey__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.journey__seg {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.journey__seg button,
+.journey__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+.journey__seg button[aria-pressed='true'] {
+  background: var(--text);
+  color: var(--bg);
+}
+.journey__toggle {
+  border: 1px solid var(--line);
+}
+.journey button.btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: 0;
+}
+.journey button.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--text) 30%, transparent);
+}
+.journey button.btn--ghost:hover {
+  border-color: var(--text);
+}
+.journey__toggle[aria-pressed='true'] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* Map */
+.journey__stage {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+}
+.journey__map {
+  position: relative;
+  aspect-ratio: 8 / 5.4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--text) 5%, var(--bg));
+  border: 1px solid var(--line);
+  perspective: 1400px;
+  perspective-origin: 50% 20%;
+}
+.journey__plane {
+  position: absolute;
+  inset: 5% 6% 6%;
+  transform-style: preserve-3d;
+  transition: transform 1.2s var(--ease);
+}
+.journey__map.is-3d .journey__plane {
+  transform: rotateX(46deg) rotateZ(-12deg) scale(1.02) translateY(-2%);
+}
+.journey__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--radius) - 4px);
+  box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.5);
+}
+
+.jm-street {
+  fill: color-mix(in srgb, var(--text) 9%, var(--bg));
+}
+.jm-quay {
+  fill: color-mix(in srgb, #6f8f5a 28%, var(--bg));
+}
+.jm-river {
+  fill: none;
+  stroke: color-mix(in srgb, #4f8fb8 60%, var(--bg));
+  stroke-width: 56;
+  stroke-linecap: round;
+}
+.jm-bridge {
+  fill: color-mix(in srgb, var(--text) 16%, var(--bg));
+}
+.jm-wall {
+  fill: color-mix(in srgb, var(--text) 4%, var(--bg));
+}
+.jm-block {
+  fill: color-mix(in srgb, var(--text) 20%, var(--bg));
+}
+.jm-block--shop {
+  fill: color-mix(in srgb, var(--accent) 70%, var(--bg));
+}
+.jm-wall.jm-block--shop {
+  fill: color-mix(in srgb, var(--accent) 35%, var(--bg));
+}
+.jm-block--home {
+  fill: color-mix(in srgb, var(--text) 32%, var(--bg));
+}
+.jm-park {
+  fill: color-mix(in srgb, #6f8f5a 45%, var(--bg));
+}
+.jm-tree {
+  fill: color-mix(in srgb, #6f8f5a 75%, var(--bg));
+}
+.jm-label {
+  fill: var(--muted);
+  font: 500 12px var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.jm-route,
+.jm-trail {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.jm-route {
+  stroke: color-mix(in srgb, var(--text) 45%, transparent);
+  stroke-width: 4;
+  stroke-dasharray: 2 10;
+}
+.jm-trail {
+  stroke: var(--accent);
+  stroke-width: 7;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+
+/* Pins stand upright when the map is tilted. */
+.journey__overlay {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.journey__pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.journey__pin-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--text);
+  font-size: 1.25rem;
+  transform: translate(-50%, 50%);
+  transform-origin: 50% 100%;
+  transition: transform 1.2s var(--ease);
+  box-shadow: 0 8px 18px -6px rgb(0 0 0 / 0.6);
+}
+.journey__map.is-3d .journey__pin-body {
+  transform: translate(-50%, 0) rotateZ(12deg) rotateX(-46deg);
+}
+.journey__pin--shop .journey__pin-body {
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--on-accent);
+  font-size: 1.6rem;
+}
+.journey__pin--shop em {
+  position: absolute;
+  top: 100%;
+  margin-top: 4px;
+  font: 600 0.75rem var(--font-display);
+  font-style: normal;
+  color: var(--text);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.journey__map.is-arrived .journey__pin--shop .journey__pin-body {
+  animation: journey-pulse 1.6s var(--ease) infinite;
+}
+.journey__pin--order .journey__pin-body {
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  border-color: var(--accent);
+  color: var(--accent);
+  opacity: 0;
+  scale: 0.4;
+  transition:
+    transform 1.2s var(--ease),
+    opacity 0.4s,
+    scale 0.5s var(--ease);
+}
+.journey__pin--order.is-visible .journey__pin-body {
+  opacity: 1;
+  scale: 1;
+}
+.journey__pin--me {
+  z-index: 2;
+}
+.journey__pin--me .journey__pin-body {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--accent);
+  border-width: 3px;
+  width: 46px;
+  height: 46px;
+  font-size: 1.5rem;
+}
+.journey__bubble {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  translate: -50% 0;
+  white-space: nowrap;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 10px;
+  opacity: 0;
+  scale: 0.6;
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.3s,
+    scale 0.4s var(--ease);
+  pointer-events: none;
+}
+.journey__bubble small {
+  font-weight: 400;
+}
+.journey__bubble.is-visible {
+  opacity: 1;
+  scale: 1;
+}
+
+/* HUD */
+.journey__hud {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: calc(var(--radius) - 4px);
+  background: color-mix(in srgb, var(--text) 5%, var(--bg));
+  border: 1px solid var(--line);
+}
+.journey__stat {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.journey__stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.journey__stat-value {
+  font: 600 1.35rem var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.journey__stat-value--accent,
+.journey__stat-value.is-hot {
+  color: var(--accent);
+}
+.journey__thermo {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+/* 60 to 70°C on a 20 to 80°C scale. */
+.journey__thermo-band {
+  position: absolute;
+  left: 66.6%;
+  width: 16.7%;
+  inset-block: 0;
+  background: color-mix(in srgb, #6f8f5a 70%, transparent);
+}
+.journey__thermo-fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: var(--fill, 0%);
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.3s linear;
+}
+.journey__status {
+  grid-column: 1 / -1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+}
+.journey__status i {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+/* Arrival */
+.journey__done {
+  position: absolute;
+  inset: auto 0.75rem 0.75rem;
+  max-width: 34rem;
+  z-index: 4;
+  display: grid;
+  justify-items: start;
+  gap: 0.4rem;
+  padding: 1.25rem 1.4rem;
+  border-radius: calc(var(--radius) - 4px);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  animation: journey-in 0.8s var(--ease);
+}
+.journey__done[hidden] {
+  display: none;
+}
+.journey__done .eyebrow {
+  margin: 0;
+}
+.journey__done h3 {
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  padding-right: 4.5rem;
+}
+.journey__done p {
+  margin: 0;
+}
+.journey__done-temp strong {
+  color: var(--accent);
+}
+.journey__done-compare {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem !important;
+}
+.journey__cup {
+  position: absolute;
+  top: 1rem;
+  right: 1.4rem;
+  font-size: 3.2rem;
+  color: var(--accent);
+}
+.journey__steam {
+  position: absolute;
+  bottom: 80%;
+  left: calc(30% + var(--n, 0) * 14%);
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--text) 50%, transparent);
+  animation: journey-steam 2s ease-in-out infinite;
+  animation-delay: calc(var(--n, 0) * 0.4s);
+}
+.journey__steam:nth-child(2) {
+  --n: 1;
+}
+.journey__steam:nth-child(3) {
+  --n: 2;
+}
+
+@keyframes journey-pulse {
+  50% {
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--accent) 0%, transparent), 0 0 0 0 var(--accent);
+    scale: 1.08;
+  }
+}
+@keyframes journey-in {
+  from {
+    opacity: 0;
+    translate: 0 20px;
+  }
+}
+@keyframes journey-steam {
+  0% {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .journey {
+    grid-template-columns: 1fr;
+  }
+  .journey__map {
+    aspect-ratio: 1;
+  }
+  .journey__plane {
+    inset: 8% 3% 6%;
+  }
+  .journey__done {
+    position: static;
+    max-width: none;
+  }
+  .journey__stat-value {
+    font-size: 1.05rem;
+  }
+  .journey__pin-body {
+    scale: 0.8;
+  }
+  .journey__cup {
+    display: none;
+  }
+  .journey__done h3 {
+    padding-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey__plane,
+  .journey__pin-body {
+    transition: none;
+  }
+  .journey__steam,
+  .journey__map.is-arrived .journey__pin--shop .journey__pin-body {
+    animation: none;
+  }
+}
