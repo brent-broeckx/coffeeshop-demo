@@ -1,0 +1,72 @@
+[
+  {
+    "name": "journey section rendered",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "order bubble shown on the way",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "timer counting after order",
+    "ok": true,
+    "detail": "10:43"
+  },
+  {
+    "name": "barista stage progresses",
+    "ok": true,
+    "detail": "Pulling the shot"
+  },
+  {
+    "name": "arrival temperature in 60-70°C sweet spot",
+    "ok": true,
+    "detail": "68°C"
+  },
+  {
+    "name": "clock advanced to arrival time",
+    "ok": true,
+    "detail": "08:24"
+  },
+  {
+    "name": "countdown hits zero on arrival",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "bike mode restarts trip",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "bike arrival at 08:16",
+    "ok": true,
+    "detail": "08:16"
+  },
+  {
+    "name": "2D toggle works",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "replay resets to start",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "no horizontal overflow on mobile",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "reduced motion shows final state",
+    "ok": true,
+    "detail": ""
+  }
+]
