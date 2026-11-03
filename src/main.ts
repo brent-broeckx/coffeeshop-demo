@@ -2,6 +2,7 @@ import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/geist';
 import '@phosphor-icons/web/regular';
 import './style.css';
+import './journey.ts';
 import { coffeeTypes, origins, promos, steps } from './data.ts';
 import { initAnimations } from './animations.ts';
 
@@ -145,6 +146,7 @@ const promoSection = `
   </section>`;
 
 const visit = `
+  <ombra-journey></ombra-journey>
   <section class="visit" id="visit">
     <div class="visit__img reveal">
       <img src="/images/cafe-interior.jpg" alt="Inside the café, with plants, wooden tables and a long bar" loading="lazy" />
