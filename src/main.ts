@@ -4,6 +4,7 @@ import '@phosphor-icons/web/regular';
 import './style.css';
 import { coffeeTypes, origins, promos, steps } from './data.ts';
 import { initAnimations } from './animations.ts';
+import { initOrder, orderSection } from './order.ts';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
@@ -19,8 +20,9 @@ const nav = `
       <a href="#story">Our coffee</a>
       <a href="#menu">Menu</a>
       <a href="#promos">This month</a>
+      <a href="#order">Order</a>
     </nav>
-    <a class="btn btn--ghost btn--small" href="#visit">Find us</a>
+    <a class="btn btn--primary btn--small" href="#order">Order ahead</a>
   </header>`;
 
 const heroWords = (text: string) =>
@@ -176,6 +178,7 @@ const footer = `
     </div>
   </footer>`;
 
-app.innerHTML = `${nav}<main>${hero}${marquee}${story}${menu}${promoSection}${visit}</main>${footer}`;
+app.innerHTML = `${nav}<main>${hero}${marquee}${story}${menu}${orderSection()}${promoSection}${visit}</main>${footer}`;
 
+initOrder();
 initAnimations();
