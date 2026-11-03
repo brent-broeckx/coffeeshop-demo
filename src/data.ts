@@ -9,6 +9,7 @@ export interface CoffeeType {
   name: string;
   build: string;
   description: string;
+  price: number;
   image: string;
   alt: string;
 }
@@ -62,6 +63,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Espresso',
     build: '18 g coffee, 36 g out, about 28 seconds',
     description: 'Hot water pushed through finely ground coffee under pressure. Dense, syrupy and the base of almost everything else on the menu.',
+    price: 2.6,
     image: '/images/espresso.jpg',
     alt: 'A short espresso in a glass on a saucer',
   },
@@ -69,6 +71,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Cappuccino',
     build: 'Double espresso, steamed milk, thick foam',
     description: 'Equal parts coffee, milk and airy foam. Lighter than a latte, with the espresso still clearly in front.',
+    price: 3.7,
     image: '/images/cappuccino.jpg',
     alt: 'A cappuccino with latte art seen from above',
   },
@@ -76,6 +79,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Flat white',
     build: 'Double ristretto, thin velvety milk',
     description: 'Smaller and stronger than a latte. The milk is steamed silky and flat, so the coffee flavour carries through.',
+    price: 3.9,
     image: '/images/flat-whites.jpg',
     alt: 'Two flat whites with latte art between plants',
   },
@@ -83,6 +87,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Americano',
     build: 'Double espresso topped with hot water',
     description: 'Espresso stretched with water into a longer, cleaner cup. Close to filter coffee, with a little more body.',
+    price: 3.2,
     image: '/images/americano.jpg',
     alt: 'A black americano with crema on a wooden table',
   },
@@ -90,6 +95,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Pour-over',
     build: '15 g coffee to 250 g water, by hand',
     description: 'Water poured slowly over a paper filter. The clearest way to taste the origin of a single bean.',
+    price: 4.2,
     image: '/images/filter.jpg',
     alt: 'A white mug of filter coffee on dark slate',
   },
@@ -97,6 +103,7 @@ export const coffeeTypes: CoffeeType[] = [
     name: 'Cold brew',
     build: 'Coarse grounds steeped 16 hours in cold water',
     description: 'Never heated, so it comes out smooth, low in acidity and naturally sweet. Best over ice, with or without milk.',
+    price: 4.5,
     image: '/images/cold-brew.jpg',
     alt: 'A glass of cold brew with milk swirling through it',
   },
